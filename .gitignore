@@ -1,0 +1,27 @@
+# OS
+.DS_Store
+
+# Claude / IDE
+.claude/
+.vscode/
+
+# BMAD framework (tooling, not project artifacts)
+.agents/
+_bmad/
+# Node
+holesocks/node_modules/
+holesocks/.next/
+holesocks/out/
+holesocks/coverage/
+
+# Playwright
+holesocks/playwright-report/
+holesocks/test-results/
+
+# Env & secrets
+holesocks/.env*
+holesocks/.vercel
+
+# Typescript
+holesocks/*.tsbuildinfo
+holesocks/next-env.d.ts

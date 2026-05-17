@@ -1,0 +1,108 @@
+import type { Product } from "@/types/product";
+
+export const PRODUCTS: Product[] = [
+  {
+    id: "le-philosophe",
+    name: "Le Philosophe",
+    tagline: "Trou parfait pour la méditation 🧘",
+    description:
+      "Une chaussette légèrement aérée pour ceux qui veulent laisser respirer leurs pensées. Le trou unique, placé à l'avant, est parfait pour exposer vos ortels penseurs.",
+    level: 1,
+    color: "black",
+    style: "orteil",
+    sizes: ["S", "M", "L", "XL"],
+    gaugeValue: 33,
+    imageUrl: "/images/le-philosophe.png",
+  },
+  {
+    id: "le-drole",
+    name: "Le Drôle",
+    tagline: "Fait rire les pieds… du moins ce qu'il en reste 😄",
+    description:
+      "Deux trous stratégiquement placés pour maximiser le comique. Idéale pour les réunions où personne ne voit vos pieds.",
+    level: 2,
+    color: "red",
+    style: "orteil",
+    sizes: ["M", "L", "XL"],
+    gaugeValue: 66,
+    imageUrl: "/images/le-drole.png",
+  },
+  {
+    id: "le-coquin",
+    name: "Le Coquin",
+    tagline: "Presque plus de chaussette, c'est l'idée 😉",
+    description:
+      "C'est quoi vraiment? Une chaussette ou un tamis? Les trois trous transforment cet accessoire en déclaration d'amour au bricolage.",
+    level: 3,
+    color: "blue",
+    style: "talon",
+    sizes: ["L", "XL"],
+    gaugeValue: 100,
+    imageUrl: "/images/le-coquin.png",
+  },
+  {
+    id: "le-bricoleur",
+    name: "Le Bricoleur",
+    tagline: "Un trou pour tous vos besoins de bricolage 🔨",
+    description:
+      "La chaussette idéale pour les amateurs de bricolage. Le trou central permet d'accéder rapidement à la semelle quand vous marchez sur les clous (par accident, bien sûr).",
+    level: 2,
+    color: "black",
+    style: "semelle",
+    sizes: ["S", "M", "L"],
+    gaugeValue: 50,
+    imageUrl: "/images/le-bricoleur.png",
+  },
+  {
+    id: "le-minimal",
+    name: "Le Minimal",
+    tagline: "Un trou, c'est assez pour tout 🎯",
+    description:
+      "L'essence même de la simplicité. Un seul trou, parfaitement centré. Pour ceux qui croient que moins c'est plus.",
+    level: 1,
+    color: "white",
+    style: "orteil",
+    sizes: ["S", "M", "L", "XL"],
+    gaugeValue: 25,
+    imageUrl: "/images/le-minimal.png",
+  },
+  {
+    id: "le-extreme",
+    name: "Le Extrême",
+    tagline: "Plus de trous que de tissu 🌀",
+    description:
+      "Pour les vrais courageux. Tellement de trous que vous vous demanderez pourquoi vous la portez encore. C'est la chaussette ultime pour faire sensation.",
+    level: 3,
+    color: "red",
+    style: "semelle",
+    sizes: ["M", "L", "XL"],
+    gaugeValue: 95,
+    imageUrl: "/images/le-extreme.png",
+  },
+  {
+    id: "le-zen",
+    name: "Le Zen",
+    tagline: "Troué avec intention 🙏",
+    description:
+      "Avec deux petits trous en haut et un grand en bas, cette chaussette crée un équilibre parfait entre protection et exposition. Zen et provocateur à la fois.",
+    level: 2,
+    color: "blue",
+    style: "orteil",
+    sizes: ["S", "M", "L", "XL"],
+    gaugeValue: 55,
+    imageUrl: "/images/le-zen.png",
+  },
+  {
+    id: "le-poete",
+    name: "Le Poète",
+    tagline: "Chaque trou raconte une histoire 📖",
+    description:
+      "Trois trous disposés comme une constellation. Une déclaration artistique pour vos pieds. Porte-la avec fierté et récite de la poésie.",
+    level: 2,
+    color: "black",
+    style: "talon",
+    sizes: ["L", "XL"],
+    gaugeValue: 60,
+    imageUrl: "/images/le-poete.png",
+  },
+];

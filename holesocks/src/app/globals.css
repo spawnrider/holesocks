@@ -1,0 +1,55 @@
+@import "tailwindcss";
+
+@theme inline {
+  /* Palette HoleSocks */
+  --color-charbon: #1C1A17;
+  --color-creme: #F4EFE3;
+  --color-acidule: #D9E830;
+  --color-sauge: #7A9E7E;
+  --color-ambre: #D4A500;
+  --color-terra: #C44B28;
+  --color-gris: #6B6560;
+
+  /* Polices */
+  --font-display: var(--font-bebas);
+  --font-editorial: var(--font-dm-serif);
+  --font-ui: var(--font-syne);
+}
+
+/* Base */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: #F4EFE3;
+  color: #1C1A17;
+  font-family: var(--font-syne), system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* prefers-reduced-motion */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  /* Préserver les transitions de couleur (non perturbatrices) */
+  button,
+  a,
+  [role="button"] {
+    transition-duration: 150ms !important;
+    transition-property: color, background-color, border-color !important;
+  }
+}

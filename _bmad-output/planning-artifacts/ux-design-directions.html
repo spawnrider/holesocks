@@ -1,0 +1,863 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HoleSocks — Design Directions</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Serif+Display:ital@0;1&family=Syne:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --hs-black:  #1C1A17;
+    --hs-cream:  #F4EFE3;
+    --hs-yellow: #D9E830;
+    --hs-sage:   #7A9E7E;
+    --hs-amber:  #D4A500;
+    --hs-terra:  #C44B28;
+    --hs-mid:    #6B6560;
+    --hs-border: rgba(28,26,23,0.12);
+    --font-display:   'Bebas Neue', sans-serif;
+    --font-editorial: 'DM Serif Display', serif;
+    --font-ui:        'Syne', sans-serif;
+  }
+
+  body {
+    background: #111;
+    color: #fff;
+    font-family: var(--font-ui);
+  }
+
+  /* ─── NAV ─── */
+  .main-nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    background: #111;
+    border-bottom: 1px solid #333;
+    padding: 0 40px;
+    height: 56px;
+    display: flex;
+    align-items: center;
+    gap: 32px;
+  }
+  .main-nav h1 { font-family: var(--font-display); font-size: 22px; color: var(--hs-yellow); letter-spacing: 0.08em; }
+  .main-nav .tabs { display: flex; gap: 4px; margin-left: auto; }
+  .tab-btn {
+    font-family: var(--font-ui); font-size: 11px; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 0.12em;
+    padding: 6px 14px; border-radius: 6px; border: 1.5px solid #333;
+    background: transparent; color: #888; cursor: pointer;
+    transition: all 150ms ease;
+  }
+  .tab-btn:hover { border-color: #555; color: #ccc; }
+  .tab-btn.active { background: var(--hs-yellow); color: var(--hs-black); border-color: var(--hs-yellow); }
+  .legend { font-family: var(--font-ui); font-size: 11px; color: #555; letter-spacing: 0.08em; }
+
+  /* ─── LAYOUT ─── */
+  .workspace {
+    margin-top: 56px;
+    padding: 32px 40px;
+    display: none;
+  }
+  .workspace.active { display: block; }
+
+  .section-label {
+    font-family: var(--font-ui); font-size: 10px; font-weight: 700;
+    letter-spacing: 0.2em; text-transform: uppercase; color: #444;
+    margin-bottom: 16px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid #222;
+  }
+
+  .mockup-row {
+    display: grid;
+    gap: 24px;
+    margin-bottom: 40px;
+  }
+  .mockup-row.cols-3 { grid-template-columns: repeat(3, 1fr); }
+  .mockup-row.cols-2 { grid-template-columns: repeat(2, 1fr); }
+  .mockup-row.cols-1 { grid-template-columns: 1fr; }
+
+  .mockup-frame {
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid #222;
+    position: relative;
+  }
+  .mockup-tag {
+    position: absolute; top: 12px; right: 12px; z-index: 10;
+    font-family: var(--font-ui); font-size: 9px; font-weight: 700;
+    letter-spacing: 0.14em; text-transform: uppercase;
+    padding: 4px 10px; border-radius: 4px;
+    background: rgba(0,0,0,0.7); color: #fff;
+    backdrop-filter: blur(4px);
+  }
+
+  /* ════════════════════════════════════════
+     DIRECTION A — ÉDITORIALE
+  ════════════════════════════════════════ */
+
+  /* Hero A */
+  .dir-a-hero {
+    background: var(--hs-black);
+    padding: 64px 48px 56px;
+    position: relative;
+    overflow: hidden;
+    min-height: 380px;
+  }
+  .dir-a-hero .circle-1 {
+    position: absolute; top: -60px; right: -60px;
+    width: 320px; height: 320px; border-radius: 50%;
+    border: 1.5px solid rgba(217,232,48,0.15);
+  }
+  .dir-a-hero .circle-2 {
+    position: absolute; bottom: -80px; left: 40%;
+    width: 220px; height: 220px; border-radius: 50%;
+    border: 1px solid rgba(217,232,48,0.08);
+  }
+  .dir-a-hero .eyebrow {
+    font-family: var(--font-ui); font-size: 10px; font-weight: 700;
+    letter-spacing: 0.22em; text-transform: uppercase;
+    color: var(--hs-yellow); margin-bottom: 16px;
+  }
+  .dir-a-hero h2 {
+    font-family: var(--font-display); font-size: 80px; line-height: 0.9;
+    color: var(--hs-cream); letter-spacing: 0.01em; margin-bottom: 24px;
+    position: relative; z-index: 1;
+  }
+  .dir-a-hero h2 em { color: var(--hs-yellow); font-style: normal; }
+  .dir-a-hero .lead {
+    font-family: var(--font-editorial); font-style: italic; font-size: 18px;
+    color: rgba(244,239,227,0.6); max-width: 420px; line-height: 1.5;
+    margin-bottom: 36px; position: relative; z-index: 1;
+  }
+  .dir-a-hero .cta-row { display: flex; gap: 12px; align-items: center; position: relative; z-index: 1; }
+  .btn-a { font-family: var(--font-ui); font-weight: 700; font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; padding: 12px 24px; border-radius: 6px; border: 1.5px solid transparent; cursor: pointer; }
+  .btn-a-accent { background: var(--hs-yellow); color: var(--hs-black); border-color: var(--hs-yellow); }
+  .btn-a-outline { background: transparent; color: var(--hs-cream); border-color: rgba(244,239,227,0.3); }
+  .dir-a-hero .nav-sim {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 0 0 40px;
+  }
+  .dir-a-hero .nav-logo { font-family: var(--font-display); font-size: 24px; color: var(--hs-cream); letter-spacing: 0.08em; }
+  .dir-a-hero .nav-links { display: flex; gap: 20px; }
+  .dir-a-hero .nav-links span { font-family: var(--font-ui); font-weight: 700; font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(244,239,227,0.5); }
+  .dir-a-hero .nav-links span.active { color: var(--hs-cream); }
+
+  /* Product cards A */
+  .dir-a-cards { background: var(--hs-cream); padding: 32px; }
+  .dir-a-cards .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  .card-a {
+    background: #fff; border: 0.5px solid rgba(28,26,23,0.12);
+    border-radius: 12px; overflow: hidden;
+    transition: transform 200ms ease, border-color 200ms ease, box-shadow 200ms ease;
+  }
+  .card-a:hover { transform: translateY(-4px); border-color: var(--hs-yellow); box-shadow: 0 8px 24px rgba(28,26,23,0.08); }
+  .card-a-thumb {
+    background: var(--hs-cream); aspect-ratio: 4/3;
+    display: flex; align-items: center; justify-content: center;
+    position: relative;
+  }
+  .card-a-hole {
+    width: 60px; height: 60px; border-radius: 50%;
+    border: 2px solid rgba(28,26,23,0.2);
+    display: flex; align-items: center; justify-content: center;
+  }
+  .card-a-hole-inner { width: 28px; height: 28px; border-radius: 50%; background: rgba(28,26,23,0.06); }
+  .card-a-badge {
+    position: absolute; top: 10px; left: 10px;
+    font-family: var(--font-ui); font-size: 9px; font-weight: 700;
+    letter-spacing: 0.14em; text-transform: uppercase;
+    padding: 4px 10px; border-radius: 4px;
+  }
+  .card-a-body { padding: 14px 16px; }
+  .card-a-name { font-family: var(--font-editorial); font-size: 17px; color: var(--hs-black); margin-bottom: 4px; }
+  .card-a-desc { font-family: var(--font-ui); font-size: 12px; color: var(--hs-mid); line-height: 1.45; margin-bottom: 12px; }
+  .card-a-footer { display: flex; align-items: center; justify-content: space-between; }
+  .card-a-price { font-family: var(--font-display); font-size: 22px; color: var(--hs-black); letter-spacing: 0.03em; }
+
+  /* Gauge A */
+  .gauge-wrap { margin-bottom: 10px; }
+  .gauge-label { font-family: var(--font-ui); font-size: 9px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--hs-mid); margin-bottom: 5px; }
+  .gauge-track { height: 8px; background: rgba(28,26,23,0.08); border-radius: 4px; overflow: visible; position: relative; }
+  .gauge-fill { height: 100%; border-radius: 4px; position: relative; }
+  .gauge-fill::after { content: ''; position: absolute; right: 0; top: 50%; transform: translate(50%,-50%); width: 12px; height: 12px; border-radius: 50%; border: 2px solid currentColor; background: var(--hs-cream); }
+  .gf-1 { width: 28%; background: var(--hs-sage); color: var(--hs-sage); }
+  .gf-2 { width: 62%; background: var(--hs-amber); color: var(--hs-amber); }
+  .gf-3 { width: 95%; background: var(--hs-terra); color: var(--hs-terra); }
+  .badge-l1 { background: #EEF5E0; color: #3D6B41; }
+  .badge-l2 { background: #FFF3CD; color: #7A5800; }
+  .badge-l3 { background: #FDE8E2; color: #8B2510; }
+
+
+  /* ════════════════════════════════════════
+     DIRECTION B — CONTRASTÉE
+  ════════════════════════════════════════ */
+
+  .dir-b-hero {
+    background: var(--hs-cream);
+    padding: 0;
+    position: relative;
+    overflow: hidden;
+  }
+  .dir-b-nav {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 20px 40px;
+    border-bottom: 1px solid rgba(28,26,23,0.1);
+  }
+  .dir-b-nav .logo { font-family: var(--font-display); font-size: 24px; color: var(--hs-black); letter-spacing: 0.08em; }
+  .dir-b-nav .links { display: flex; gap: 20px; align-items: center; }
+  .dir-b-nav .links span { font-family: var(--font-ui); font-weight: 700; font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--hs-mid); }
+  .dir-b-nav .cart { font-family: var(--font-ui); font-size: 11px; font-weight: 700; background: var(--hs-black); color: var(--hs-cream); padding: 6px 14px; border-radius: 6px; letter-spacing: 0.08em; }
+  .dir-b-content {
+    display: grid; grid-template-columns: 1fr 1fr; min-height: 300px;
+  }
+  .dir-b-left {
+    padding: 40px 48px 40px 40px;
+    display: flex; flex-direction: column; justify-content: center;
+  }
+  .dir-b-left .label { font-family: var(--font-ui); font-size: 10px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: var(--hs-mid); margin-bottom: 14px; }
+  .dir-b-left h2 { font-family: var(--font-display); font-size: 72px; line-height: 0.9; color: var(--hs-black); margin-bottom: 20px; }
+  .dir-b-left h2 .accent { color: var(--hs-terra); }
+  .dir-b-left .desc { font-family: var(--font-editorial); font-style: italic; font-size: 16px; color: var(--hs-mid); line-height: 1.5; margin-bottom: 28px; max-width: 340px; }
+  .dir-b-left .ctas { display: flex; gap: 10px; flex-wrap: wrap; }
+  .btn-b-accent { font-family: var(--font-ui); font-weight: 700; font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; padding: 10px 20px; border-radius: 6px; background: var(--hs-black); color: var(--hs-cream); border: none; cursor: pointer; }
+  .btn-b-outline { font-family: var(--font-ui); font-weight: 700; font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; padding: 10px 20px; border-radius: 6px; background: transparent; color: var(--hs-black); border: 1.5px solid rgba(28,26,23,0.3); cursor: pointer; }
+  .dir-b-right {
+    background: var(--hs-black); display: flex; align-items: center; justify-content: center;
+    position: relative; overflow: hidden;
+  }
+  .dir-b-right .big-circle { width: 200px; height: 200px; border-radius: 50%; border: 2px solid rgba(217,232,48,0.25); position: relative; display: flex; align-items: center; justify-content: center; }
+  .dir-b-right .inner-circle { width: 90px; height: 90px; border-radius: 50%; border: 1.5px solid rgba(217,232,48,0.4); display: flex; align-items: center; justify-content: center; }
+  .dir-b-right .hole-text { font-family: var(--font-display); font-size: 14px; color: var(--hs-yellow); letter-spacing: 0.1em; }
+  .dir-b-right .deco-ring { position: absolute; width: 300px; height: 300px; border-radius: 50%; border: 1px solid rgba(217,232,48,0.08); }
+
+  /* Levels section B */
+  .dir-b-levels {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    border-top: 1px solid rgba(28,26,23,0.1);
+  }
+  .level-col { padding: 24px 28px; border-right: 1px solid rgba(28,26,23,0.1); }
+  .level-col:last-child { border-right: none; }
+  .level-col .lvl-num { font-family: var(--font-display); font-size: 48px; line-height: 1; margin-bottom: 8px; }
+  .level-col.l1 .lvl-num { color: var(--hs-sage); }
+  .level-col.l2 .lvl-num { color: var(--hs-amber); }
+  .level-col.l3 .lvl-num { color: var(--hs-terra); }
+  .level-col .lvl-name { font-family: var(--font-ui); font-weight: 700; font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--hs-black); margin-bottom: 6px; }
+  .level-col .lvl-desc { font-family: var(--font-editorial); font-style: italic; font-size: 13px; color: var(--hs-mid); line-height: 1.45; }
+
+
+  /* ════════════════════════════════════════
+     DIRECTION C — ÉPURÉE / MAXIMALE
+  ════════════════════════════════════════ */
+
+  .dir-c-hero {
+    background: var(--hs-cream);
+    padding: 32px 48px 40px;
+  }
+  .dir-c-nav {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-bottom: 48px;
+  }
+  .dir-c-logo { font-family: var(--font-display); font-size: 20px; color: var(--hs-black); letter-spacing: 0.12em; }
+  .dir-c-links { display: flex; gap: 24px; }
+  .dir-c-links span { font-family: var(--font-ui); font-size: 11px; font-weight: 700; color: var(--hs-mid); letter-spacing: 0.14em; text-transform: uppercase; }
+  .dir-c-hero-body { text-align: center; max-width: 640px; margin: 0 auto; }
+  .dir-c-eyebrow { font-family: var(--font-ui); font-size: 10px; font-weight: 700; letter-spacing: 0.3em; text-transform: uppercase; color: var(--hs-mid); margin-bottom: 20px; }
+  .dir-c-title { font-family: var(--font-display); font-size: 96px; line-height: 0.88; color: var(--hs-black); letter-spacing: 0.01em; margin-bottom: 28px; }
+  .dir-c-title .hole { color: var(--hs-terra); }
+  .dir-c-lead { font-family: var(--font-editorial); font-style: italic; font-size: 20px; color: var(--hs-mid); line-height: 1.45; margin-bottom: 36px; }
+  .dir-c-cta { display: inline-block; font-family: var(--font-ui); font-weight: 700; font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; padding: 14px 32px; background: var(--hs-black); color: var(--hs-cream); border-radius: 6px; }
+  .dir-c-divider { height: 1px; background: rgba(28,26,23,0.1); margin: 40px 0 32px; }
+  .dir-c-stats { display: flex; justify-content: center; gap: 48px; }
+  .dir-c-stat .num { font-family: var(--font-display); font-size: 36px; color: var(--hs-black); }
+  .dir-c-stat .lbl { font-family: var(--font-ui); font-size: 10px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: var(--hs-mid); margin-top: 2px; }
+
+  /* Product page C */
+  .dir-c-product { background: var(--hs-cream); padding: 32px 48px; }
+  .dir-c-product-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: start; }
+  .dir-c-product-img { background: rgba(28,26,23,0.04); border-radius: 16px; aspect-ratio: 1; display: flex; align-items: center; justify-content: center; position: relative; }
+  .dir-c-hole-big { width: 120px; height: 120px; border-radius: 50%; border: 2px solid rgba(28,26,23,0.15); display: flex; align-items: center; justify-content: center; }
+  .dir-c-hole-inner { width: 56px; height: 56px; border-radius: 50%; background: rgba(28,26,23,0.04); }
+  .dir-c-product-info { padding-top: 8px; }
+  .dir-c-product-name { font-family: var(--font-display); font-size: 52px; line-height: 0.92; color: var(--hs-black); margin-bottom: 16px; }
+  .dir-c-product-tag { font-family: var(--font-ui); font-size: 9px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; padding: 4px 10px; border-radius: 4px; display: inline-block; margin-bottom: 20px; }
+  .dir-c-product-desc { font-family: var(--font-editorial); font-size: 16px; line-height: 1.65; color: var(--hs-black); margin-bottom: 24px; }
+  .dir-c-product-desc em { font-style: italic; color: var(--hs-mid); }
+  .dir-c-price-row { display: flex; align-items: center; justify-content: space-between; margin-top: 28px; padding-top: 20px; border-top: 1px solid rgba(28,26,23,0.1); }
+  .dir-c-price { font-family: var(--font-display); font-size: 36px; color: var(--hs-black); letter-spacing: 0.03em; }
+  .dir-c-btn { font-family: var(--font-ui); font-weight: 700; font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; padding: 12px 24px; border-radius: 6px; background: var(--hs-yellow); color: var(--hs-black); border: none; cursor: pointer; }
+
+
+  /* ════════════════════════════════════════
+     DIRECTION D — SOMBRE / NOCTURNE
+  ════════════════════════════════════════ */
+
+  .dir-d-hero { background: #0E0D0B; padding: 0; }
+  .dir-d-nav {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 20px 40px; border-bottom: 1px solid rgba(244,239,227,0.06);
+  }
+  .dir-d-logo { font-family: var(--font-display); font-size: 22px; color: var(--hs-cream); letter-spacing: 0.1em; }
+  .dir-d-links { display: flex; gap: 20px; }
+  .dir-d-links span { font-family: var(--font-ui); font-size: 11px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(244,239,227,0.35); }
+  .dir-d-links span.active { color: var(--hs-yellow); }
+  .dir-d-body { padding: 48px 40px 40px; display: grid; grid-template-columns: 1fr 360px; gap: 40px; align-items: center; }
+  .dir-d-eyebrow { font-family: var(--font-ui); font-size: 10px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(217,232,48,0.6); margin-bottom: 16px; }
+  .dir-d-title { font-family: var(--font-display); font-size: 76px; line-height: 0.9; color: var(--hs-cream); margin-bottom: 20px; }
+  .dir-d-title .y { color: var(--hs-yellow); }
+  .dir-d-desc { font-family: var(--font-editorial); font-style: italic; font-size: 16px; color: rgba(244,239,227,0.5); line-height: 1.5; margin-bottom: 28px; max-width: 380px; }
+  .btn-d { font-family: var(--font-ui); font-weight: 700; font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; padding: 11px 22px; border-radius: 6px; cursor: pointer; }
+  .btn-d-primary { background: var(--hs-yellow); color: var(--hs-black); border: none; }
+  .btn-d-ghost { background: transparent; color: rgba(244,239,227,0.5); border: 1.5px solid rgba(244,239,227,0.15); }
+  .dir-d-ctas { display: flex; gap: 10px; }
+  .dir-d-card {
+    background: rgba(244,239,227,0.04); border: 1px solid rgba(244,239,227,0.08);
+    border-radius: 16px; overflow: hidden;
+  }
+  .dir-d-card-thumb { background: rgba(244,239,227,0.03); aspect-ratio: 4/3; display: flex; align-items: center; justify-content: center; }
+  .dir-d-ring { width: 72px; height: 72px; border-radius: 50%; border: 1.5px solid rgba(244,239,227,0.2); display: flex; align-items: center; justify-content: center; }
+  .dir-d-ring-i { width: 32px; height: 32px; border-radius: 50%; background: rgba(244,239,227,0.04); }
+  .dir-d-card-body { padding: 16px; }
+  .dir-d-card-name { font-family: var(--font-editorial); font-size: 17px; color: var(--hs-cream); margin-bottom: 4px; }
+  .dir-d-card-desc { font-family: var(--font-ui); font-size: 12px; color: rgba(244,239,227,0.35); line-height: 1.4; margin-bottom: 14px; }
+  .dir-d-card-price { font-family: var(--font-display); font-size: 22px; color: var(--hs-yellow); letter-spacing: 0.03em; }
+  .dir-d-bar { height: 8px; background: rgba(244,239,227,0.06); border-radius: 4px; margin-bottom: 14px; overflow: visible; position: relative; }
+  .dir-d-fill { height: 100%; border-radius: 4px; background: var(--hs-terra); position: relative; width: 94%; }
+  .dir-d-fill::after { content:''; position: absolute; right:0; top:50%; transform:translate(50%,-50%); width:12px; height:12px; border-radius:50%; border:2px solid var(--hs-terra); background:#0E0D0B; }
+
+
+  /* ════════════════════════════════════════
+     DIRECTION E — CATALOGUE FILTERS
+  ════════════════════════════════════════ */
+  .dir-e { background: var(--hs-cream); padding: 24px 32px; }
+  .dir-e-header { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 20px; }
+  .dir-e-title { font-family: var(--font-display); font-size: 40px; color: var(--hs-black); }
+  .dir-e-count { font-family: var(--font-ui); font-size: 12px; color: var(--hs-mid); }
+  .dir-e-filters { display: flex; gap: 8px; margin-bottom: 24px; flex-wrap: wrap; }
+  .filter-pill {
+    font-family: var(--font-ui); font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
+    padding: 7px 14px; border-radius: 20px; border: 1.5px solid rgba(28,26,23,0.2);
+    background: transparent; color: var(--hs-black); cursor: pointer;
+    transition: all 150ms ease;
+  }
+  .filter-pill.active-sage  { background: var(--hs-sage); color: #fff; border-color: var(--hs-sage); }
+  .filter-pill.active-amber { background: var(--hs-amber); color: #fff; border-color: var(--hs-amber); }
+  .filter-pill.active-terra { background: var(--hs-terra); color: #fff; border-color: var(--hs-terra); }
+  .filter-pill.active-black { background: var(--hs-black); color: var(--hs-cream); border-color: var(--hs-black); }
+  .dir-e-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+  .dir-e-card { background: #fff; border: 0.5px solid rgba(28,26,23,0.1); border-radius: 10px; overflow: hidden; }
+  .dir-e-thumb { background: var(--hs-cream); aspect-ratio: 4/3; display: flex; align-items: center; justify-content: center; }
+  .dir-e-thumb-circle { width: 48px; height: 48px; border-radius: 50%; border: 1.5px solid rgba(28,26,23,0.15); }
+  .dir-e-body { padding: 12px 14px; }
+  .dir-e-name { font-family: var(--font-editorial); font-size: 16px; color: var(--hs-black); margin-bottom: 3px; }
+  .dir-e-sub { font-family: var(--font-ui); font-size: 11px; color: var(--hs-mid); margin-bottom: 10px; }
+  .dir-e-footer { display: flex; justify-content: space-between; align-items: center; }
+  .dir-e-price { font-family: var(--font-display); font-size: 20px; color: var(--hs-black); }
+  .dir-e-add { font-family: var(--font-ui); font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; padding: 6px 12px; background: var(--hs-yellow); color: var(--hs-black); border: none; border-radius: 5px; cursor: pointer; }
+
+
+  /* ════════════════════════════════════════
+     DIRECTION F — REVIEW + FOOTER
+  ════════════════════════════════════════ */
+  .dir-f { background: var(--hs-black); padding: 40px 48px; }
+  .dir-f-label { font-family: var(--font-ui); font-size: 10px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(244,239,227,0.3); margin-bottom: 28px; }
+  .dir-f-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 40px; }
+  .review-card {
+    background: rgba(244,239,227,0.05); border: 1px solid rgba(244,239,227,0.08);
+    border-radius: 10px; padding: 18px 20px;
+  }
+  .review-stars { color: var(--hs-yellow); font-size: 13px; margin-bottom: 10px; letter-spacing: 2px; }
+  .review-text { font-family: var(--font-editorial); font-style: italic; font-size: 14px; color: rgba(244,239,227,0.75); line-height: 1.6; margin-bottom: 12px; }
+  .review-author { font-family: var(--font-ui); font-size: 10px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(244,239,227,0.3); }
+  .dir-f-divider { height: 1px; background: rgba(244,239,227,0.08); margin-bottom: 28px; }
+  .dir-f-footer { display: flex; justify-content: space-between; align-items: center; }
+  .dir-f-logo { font-family: var(--font-display); font-size: 20px; color: rgba(244,239,227,0.2); letter-spacing: 0.1em; }
+  .dir-f-links { display: flex; gap: 20px; }
+  .dir-f-links span { font-family: var(--font-ui); font-size: 10px; color: rgba(244,239,227,0.25); letter-spacing: 0.1em; }
+  .dir-f-copy { font-family: var(--font-ui); font-size: 10px; color: rgba(244,239,227,0.2); letter-spacing: 0.06em; }
+
+
+  /* ════════════════════════════════════════
+     DIRECTION G — KIT BRICOLEUR BANDEAU
+  ════════════════════════════════════════ */
+  .dir-g { background: var(--hs-yellow); padding: 40px 48px; display: flex; align-items: center; justify-content: space-between; gap: 32px; }
+  .dir-g-left {}
+  .dir-g-eyebrow { font-family: var(--font-ui); font-size: 10px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(28,26,23,0.5); margin-bottom: 10px; }
+  .dir-g-title { font-family: var(--font-display); font-size: 56px; line-height: 0.92; color: var(--hs-black); margin-bottom: 12px; }
+  .dir-g-desc { font-family: var(--font-editorial); font-style: italic; font-size: 16px; color: rgba(28,26,23,0.65); max-width: 360px; line-height: 1.4; }
+  .dir-g-right { text-align: right; flex-shrink: 0; }
+  .dir-g-price { font-family: var(--font-display); font-size: 72px; line-height: 1; color: var(--hs-black); margin-bottom: 12px; }
+  .dir-g-btn { font-family: var(--font-ui); font-weight: 700; font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; padding: 12px 28px; background: var(--hs-black); color: var(--hs-cream); border: none; border-radius: 6px; cursor: pointer; }
+
+  /* ────────────────────────────────────────
+     RÉSUMÉ & SÉLECTION
+  ─────────────────────────────────────── */
+  .summary-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  .summary-card {
+    background: #1a1a1a; border: 1px solid #2a2a2a; border-radius: 10px;
+    padding: 20px; cursor: pointer; transition: border-color 150ms ease;
+  }
+  .summary-card:hover { border-color: #444; }
+  .summary-card.selected { border-color: var(--hs-yellow) !important; }
+  .summary-card h3 { font-family: var(--font-display); font-size: 22px; color: var(--hs-cream); margin-bottom: 8px; letter-spacing: 0.04em; }
+  .summary-card p { font-family: var(--font-ui); font-size: 12px; color: #555; line-height: 1.5; margin-bottom: 12px; }
+  .summary-card .keywords { display: flex; flex-wrap: wrap; gap: 6px; }
+  .kw { font-family: var(--font-ui); font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; padding: 3px 8px; border-radius: 4px; background: #222; color: #666; }
+
+</style>
+</head>
+<body>
+
+<!-- NAVIGATION -->
+<nav class="main-nav">
+  <h1>HOLESOCKS</h1>
+  <span class="legend">Design Directions — Exploration</span>
+  <div class="tabs">
+    <button class="tab-btn active" onclick="showTab('home')">Accueil</button>
+    <button class="tab-btn" onclick="showTab('catalogue')">Catalogue</button>
+    <button class="tab-btn" onclick="showTab('product')">Fiche Produit</button>
+    <button class="tab-btn" onclick="showTab('sections')">Sections</button>
+    <button class="tab-btn" onclick="showTab('summary')">Résumé</button>
+  </div>
+</nav>
+
+
+<!-- ═══════════════════════════ TAB: ACCUEIL ═══════════════════════════ -->
+<div id="tab-home" class="workspace active">
+  <div class="section-label">3 directions de hero — même contenu, identités visuelles différentes</div>
+
+  <div class="mockup-row cols-3">
+
+    <!-- DIRECTION A: ÉDITORIALE SOMBRE -->
+    <div class="mockup-frame">
+      <span class="mockup-tag">A — Éditoriale Sombre</span>
+      <div class="dir-a-hero">
+        <div class="circle-1"></div>
+        <div class="circle-2"></div>
+        <div class="nav-sim">
+          <div class="nav-logo">HOLESOCKS</div>
+          <div class="nav-links">
+            <span class="active">Léger</span>
+            <span>Aéré</span>
+            <span>Catastrophe</span>
+          </div>
+        </div>
+        <div class="eyebrow">Collection Printemps 2026</div>
+        <h2>LA CHAUSSETTE<br><em>QUI RESPIRE.</em></h2>
+        <p class="lead">Enfin une chaussette honnête sur son état.<br>Trouée à la source, livrée fière.</p>
+        <div class="cta-row">
+          <button class="btn-a btn-a-accent">Explorer la collection</button>
+          <button class="btn-a btn-a-outline">Notre philosophie</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- DIRECTION B: CONTRASTÉE CLAIRE -->
+    <div class="mockup-frame">
+      <span class="mockup-tag">B — Contrastée Claire</span>
+      <div class="dir-b-hero">
+        <div class="dir-b-nav">
+          <div class="logo">HOLESOCKS</div>
+          <div class="links">
+            <span>Léger</span>
+            <span>Aéré</span>
+            <span>Catastrophe</span>
+          </div>
+          <span class="cart">Panier (0)</span>
+        </div>
+        <div class="dir-b-content">
+          <div class="dir-b-left">
+            <p class="label">Nouvelle collection</p>
+            <h2>TROUS<br>CERTIFIÉS<br><span class="accent">FRAIS.</span></h2>
+            <p class="desc">Des chaussettes qui assument leurs imperfections depuis le premier jour de vie.</p>
+            <div class="ctas">
+              <button class="btn-b-accent">Adopter un trou</button>
+              <button class="btn-b-outline">En savoir plus</button>
+            </div>
+          </div>
+          <div class="dir-b-right">
+            <div class="deco-ring"></div>
+            <div class="big-circle">
+              <div class="inner-circle">
+                <span class="hole-text">TROU</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="dir-b-levels">
+          <div class="level-col l1">
+            <div class="lvl-num">I</div>
+            <div class="lvl-name">Léger</div>
+            <div class="lvl-desc">Un frisson d'air. On appelle ça respirer.</div>
+          </div>
+          <div class="level-col l2">
+            <div class="lvl-num">II</div>
+            <div class="lvl-name">Aéré</div>
+            <div class="lvl-desc">La ventilation qu'on n'avait pas commandée.</div>
+          </div>
+          <div class="level-col l3">
+            <div class="lvl-num">III</div>
+            <div class="lvl-name">Catastrophe</div>
+            <div class="lvl-desc">Un événement. Une conversation.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- DIRECTION C: ÉPURÉE CENTRÉE -->
+    <div class="mockup-frame">
+      <span class="mockup-tag">C — Épurée Centrée</span>
+      <div class="dir-c-hero">
+        <div class="dir-c-nav">
+          <div class="dir-c-logo">HOLESOCKS</div>
+          <div class="dir-c-links">
+            <span>Léger</span>
+            <span>Aéré</span>
+            <span>Catastrophe</span>
+          </div>
+        </div>
+        <div class="dir-c-hero-body">
+          <p class="dir-c-eyebrow">Commerce de l'imperfection — depuis 2026</p>
+          <h2 class="dir-c-title">LA CHAUSSETTE<br><span class="hole">TROUÉE.</span></h2>
+          <p class="dir-c-lead">Pas un défaut. Une feature.<br>Achetée neuve. Livrée authentique.</p>
+          <div class="dir-c-cta">Explorer la collection</div>
+          <div class="dir-c-divider"></div>
+          <div class="dir-c-stats">
+            <div class="dir-c-stat"><div class="num">3</div><div class="lbl">Niveaux de trou</div></div>
+            <div class="dir-c-stat"><div class="num">12</div><div class="lbl">Modèles</div></div>
+            <div class="dir-c-stat"><div class="num">100%</div><div class="lbl">Assumé</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Nocturne -->
+  <div class="section-label">Variation sombre — pour sections nocturnes / reviews</div>
+  <div class="mockup-row cols-1">
+    <div class="mockup-frame">
+      <span class="mockup-tag">D — Nocturne (variation hero inversé)</span>
+      <div class="dir-d-hero">
+        <div class="dir-d-nav">
+          <div class="dir-d-logo">HOLESOCKS</div>
+          <div class="dir-d-links">
+            <span class="active">Léger</span>
+            <span>Aéré</span>
+            <span>Catastrophe</span>
+          </div>
+        </div>
+        <div class="dir-d-body">
+          <div>
+            <p class="dir-d-eyebrow">Édition Catastrophe — Printemps 2026</p>
+            <h2 class="dir-d-title">LE TROU<br>QUI<br><span class="y">ASSUME.</span></h2>
+            <p class="dir-d-desc">La chaussette qui ne prétend pas être ce qu'elle n'est plus.</p>
+            <div class="dir-d-ctas">
+              <button class="btn-d btn-d-primary">Voir la collection</button>
+              <button class="btn-d btn-d-ghost">Notre manifeste</button>
+            </div>
+          </div>
+          <div class="dir-d-card">
+            <div class="dir-d-card-thumb">
+              <div class="dir-d-ring"><div class="dir-d-ring-i"></div></div>
+            </div>
+            <div class="dir-d-card-body">
+              <div class="dir-d-bar"><div class="dir-d-fill"></div></div>
+              <div class="dir-d-card-name">Le Lundi Noir</div>
+              <div class="dir-d-card-desc">Niveau Catastrophe · Trou de caractère.</div>
+              <div class="dir-d-card-price">24 €</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════ TAB: CATALOGUE ═══════════════════════════ -->
+<div id="tab-catalogue" class="workspace">
+  <div class="section-label">Page catalogue — filtres décalés et grille produit</div>
+  <div class="mockup-row cols-1">
+    <div class="mockup-frame">
+      <span class="mockup-tag">Catalogue — Direction unifiée</span>
+      <div class="dir-e">
+        <div class="dir-e-header">
+          <div class="dir-e-title">LA COLLECTION</div>
+          <div class="dir-e-count">12 chaussettes · 3 niveaux d'existence</div>
+        </div>
+        <div class="dir-e-filters">
+          <span class="filter-pill active-black">Tout voir</span>
+          <span class="filter-pill active-sage" style="cursor:default">Léger</span>
+          <span class="filter-pill active-amber" style="cursor:default">Aéré</span>
+          <span class="filter-pill active-terra" style="cursor:default">Catastrophe</span>
+          <span class="filter-pill" style="cursor:default">Niveau d'existentialisme ↓</span>
+          <span class="filter-pill" style="cursor:default">Ampleur du regret ↓</span>
+        </div>
+        <div class="dir-e-grid">
+          <!-- Card 1 -->
+          <div class="dir-e-card">
+            <div class="dir-e-thumb">
+              <div class="dir-e-thumb-circle" style="border-color:var(--hs-sage);"></div>
+            </div>
+            <div class="dir-e-body">
+              <div style="margin-bottom:6px;">
+                <span style="font-family:var(--font-ui);font-size:9px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;padding:3px 8px;border-radius:4px;background:#EEF5E0;color:#3D6B41;">Léger</span>
+              </div>
+              <div class="gauge-wrap">
+                <div class="gauge-label">Taux de liberté</div>
+                <div class="gauge-track"><div class="gauge-fill gf-1"></div></div>
+              </div>
+              <div class="dir-e-name">Le Philosophe</div>
+              <div class="dir-e-sub">Un souffle discret. Presque intentionnel.</div>
+              <div class="dir-e-footer">
+                <div class="dir-e-price">14 €</div>
+                <button class="dir-e-add">Adopter</button>
+              </div>
+            </div>
+          </div>
+          <!-- Card 2 -->
+          <div class="dir-e-card">
+            <div class="dir-e-thumb">
+              <div class="dir-e-thumb-circle" style="border-color:var(--hs-amber);width:64px;height:64px;"></div>
+            </div>
+            <div class="dir-e-body">
+              <div style="margin-bottom:6px;">
+                <span style="font-family:var(--font-ui);font-size:9px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;padding:3px 8px;border-radius:4px;background:#FFF3CD;color:#7A5800;">Aéré</span>
+              </div>
+              <div class="gauge-wrap">
+                <div class="gauge-label">Taux de liberté</div>
+                <div class="gauge-track"><div class="gauge-fill gf-2"></div></div>
+              </div>
+              <div class="dir-e-name">L'Existentiel</div>
+              <div class="dir-e-sub">La ventilation qu'on n'avait pas demandée.</div>
+              <div class="dir-e-footer">
+                <div class="dir-e-price">18 €</div>
+                <button class="dir-e-add">Adopter</button>
+              </div>
+            </div>
+          </div>
+          <!-- Card 3 -->
+          <div class="dir-e-card">
+            <div class="dir-e-thumb">
+              <div class="dir-e-thumb-circle" style="border-color:var(--hs-terra);width:80px;height:80px;"></div>
+            </div>
+            <div class="dir-e-body">
+              <div style="margin-bottom:6px;">
+                <span style="font-family:var(--font-ui);font-size:9px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;padding:3px 8px;border-radius:4px;background:#FDE8E2;color:#8B2510;">Catastrophe</span>
+              </div>
+              <div class="gauge-wrap">
+                <div class="gauge-label">Taux de liberté</div>
+                <div class="gauge-track"><div class="gauge-fill gf-3"></div></div>
+              </div>
+              <div class="dir-e-name">Le Lundi Noir</div>
+              <div class="dir-e-sub">Un événement. Une conversation.</div>
+              <div class="dir-e-footer">
+                <div class="dir-e-price">24 €</div>
+                <button class="dir-e-add">Adopter</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════ TAB: FICHE PRODUIT ═══════════════════════════ -->
+<div id="tab-product" class="workspace">
+  <div class="section-label">Fiche produit — layout 2 colonnes, jauge signature</div>
+  <div class="mockup-row cols-1">
+    <div class="mockup-frame">
+      <span class="mockup-tag">Fiche Produit — Direction C (Épurée)</span>
+      <div class="dir-c-product">
+        <div class="dir-c-product-grid">
+          <div class="dir-c-product-img">
+            <div class="dir-c-hole-big">
+              <div class="dir-c-hole-inner"></div>
+            </div>
+          </div>
+          <div class="dir-c-product-info">
+            <h1 class="dir-c-product-name">LE LUNDI<br>NOIR</h1>
+            <span class="dir-c-product-tag badge-l3">Catastrophe</span>
+            <div class="gauge-wrap" style="margin-bottom:20px;">
+              <div class="gauge-label" style="font-family:var(--font-ui);font-size:9px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--hs-mid);margin-bottom:6px;">Jauge de trou</div>
+              <div class="gauge-track" style="background:rgba(28,26,23,0.08);">
+                <div class="gauge-fill gf-3"></div>
+              </div>
+            </div>
+            <p class="dir-c-product-desc">
+              Il est arrivé modeste. Il est parti héroïque. Ce trou a une <em>histoire.</em><br><br>
+              Le Lundi Noir est notre modèle signature : une ouverture de caractère, positionnée avec intention, qui transforme chaque pas en déclaration. Disponible en 36–45.
+            </p>
+            <div style="margin-bottom:16px;">
+              <div style="font-family:var(--font-ui);font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--hs-mid);margin-bottom:10px;">Pointure</div>
+              <div style="display:flex;gap:8px;">
+                <span style="font-family:var(--font-ui);font-size:12px;padding:7px 14px;border:1.5px solid rgba(28,26,23,0.15);border-radius:6px;cursor:pointer;">36–38</span>
+                <span style="font-family:var(--font-ui);font-size:12px;padding:7px 14px;border:1.5px solid var(--hs-black);border-radius:6px;background:var(--hs-black);color:var(--hs-cream);cursor:pointer;">39–42</span>
+                <span style="font-family:var(--font-ui);font-size:12px;padding:7px 14px;border:1.5px solid rgba(28,26,23,0.15);border-radius:6px;cursor:pointer;">43–45</span>
+              </div>
+            </div>
+            <div class="dir-c-price-row">
+              <div class="dir-c-price">24 €</div>
+              <button class="dir-c-btn">Adopter ce trou</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════ TAB: SECTIONS ═══════════════════════════ -->
+<div id="tab-sections" class="workspace">
+  <div class="section-label">Kit du Bricoleur — bandeau pleine largeur Acidulé</div>
+  <div class="mockup-row cols-1">
+    <div class="mockup-frame">
+      <span class="mockup-tag">Bandeau Kit du Bricoleur</span>
+      <div class="dir-g">
+        <div class="dir-g-left">
+          <p class="dir-g-eyebrow">Pour aller jusqu'au bout</p>
+          <h2 class="dir-g-title">LE KIT DU<br>BRICOLEUR</h2>
+          <p class="dir-g-desc">Aiguille, fil, et le manuel de réparation qu'on n'ouvrira jamais.</p>
+        </div>
+        <div class="dir-g-right">
+          <div class="dir-g-price">8 €</div>
+          <button class="dir-g-btn">Compléter la collection</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-label" style="margin-top:32px;">Section avis clients — fond Charbon</div>
+  <div class="mockup-row cols-1">
+    <div class="mockup-frame">
+      <span class="mockup-tag">Avis clients</span>
+      <div class="dir-f">
+        <p class="dir-f-label">Ce qu'ils en pensent vraiment</p>
+        <div class="dir-f-grid">
+          <div class="review-card">
+            <div class="review-stars">★★★★★</div>
+            <p class="review-text">"J'ai mis deux semaines à réaliser que c'était fait exprès. Je lui ai mis 5 étoiles par respect."</p>
+            <p class="review-author">— Matthieu B., 34 ans</p>
+          </div>
+          <div class="review-card">
+            <div class="review-stars">★★★★☆</div>
+            <p class="review-text">"Mon médecin dit que c'est bon pour la circulation. Je ne suis pas sûre qu'il ait compris."</p>
+            <p class="review-author">— Isabelle C., 41 ans</p>
+          </div>
+          <div class="review-card">
+            <div class="review-stars">★★★★★</div>
+            <p class="review-text">"Catastrophe est arrivé dans le taille correcte. Le reste, c'est de l'art."</p>
+            <p class="review-author">— Thomas V., 28 ans</p>
+          </div>
+        </div>
+        <div class="dir-f-divider"></div>
+        <div class="dir-f-footer">
+          <div class="dir-f-logo">HOLESOCKS</div>
+          <div class="dir-f-links">
+            <span>Mentions légales</span>
+            <span>CGV</span>
+            <span>Contact</span>
+          </div>
+          <div class="dir-f-copy">© 2026 HoleSocks. Tous droits troués.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════ TAB: RÉSUMÉ ═══════════════════════════ -->
+<div id="tab-summary" class="workspace">
+  <div class="section-label">Évaluation des directions — cliquer pour sélectionner</div>
+  <div class="summary-grid">
+
+    <div class="summary-card" onclick="toggleSummary(this)">
+      <h3>A — ÉDITORIALE SOMBRE</h3>
+      <p>Hero plein fond Charbon avec grands cercles décoratifs. Typographie imposante, accroche DM Serif italic. Impact maximal, identité premium nocturne.</p>
+      <div class="keywords">
+        <span class="kw">Premium</span>
+        <span class="kw">Dramatique</span>
+        <span class="kw">Impact</span>
+      </div>
+    </div>
+
+    <div class="summary-card" onclick="toggleSummary(this)">
+      <h3>B — CONTRASTÉE CLAIRE</h3>
+      <p>Split-screen Crème / Charbon. Navigation propre en haut, 3 colonnes de niveau en bas. Structure e-commerce reconnaissable, subvertie.</p>
+      <div class="keywords">
+        <span class="kw">Clarté</span>
+        <span class="kw">Structuré</span>
+        <span class="kw">E-commerce</span>
+      </div>
+    </div>
+
+    <div class="summary-card" onclick="toggleSummary(this)">
+      <h3>C — ÉPURÉE CENTRÉE</h3>
+      <p>Tout centré, maximum d'espace blanc, typographie 96px. Minimaliste, éditorial, respiration maximale. Le plus "sérieusement absurde".</p>
+      <div class="keywords">
+        <span class="kw">Minimaliste</span>
+        <span class="kw">Éditorial</span>
+        <span class="kw">Respiration</span>
+      </div>
+    </div>
+
+    <div class="summary-card" onclick="toggleSummary(this)">
+      <h3>D — NOCTURNE</h3>
+      <p>Déclinaison sombre pour sections intérieures (reviews, édition Catastrophe). Pas un hero principal, mais une section spéciale nocturne.</p>
+      <div class="keywords">
+        <span class="kw">Section</span>
+        <span class="kw">Catastrophe</span>
+        <span class="kw">Nocturne</span>
+      </div>
+    </div>
+
+    <div class="summary-card" onclick="toggleSummary(this)">
+      <h3>CATALOGUE — UNIFIÉ</h3>
+      <p>Filtres pills décalés, grille 3 colonnes, jauge animée sur chaque carte. Simple, lisible, humour dans les libellés. Une direction, pas de variation.</p>
+      <div class="keywords">
+        <span class="kw">Simple</span>
+        <span class="kw">Efficace</span>
+        <span class="kw">Décalé</span>
+      </div>
+    </div>
+
+    <div class="summary-card" onclick="toggleSummary(this)">
+      <h3>FICHE PRODUIT — ÉPURÉE</h3>
+      <p>Layout 2 colonnes, photo + info. Jauge de trou signature. CTA "Adopter ce trou". Simple et lisible, l'humour est dans le texte.</p>
+      <div class="keywords">
+        <span class="kw">Conversion</span>
+        <span class="kw">Jauge</span>
+        <span class="kw">Lisible</span>
+      </div>
+    </div>
+
+  </div>
+
+  <div style="margin-top: 40px; padding: 24px; background: #1a1a1a; border-radius: 12px; border: 1px solid #2a2a2a;">
+    <p style="font-family: var(--font-editorial); font-style: italic; font-size: 16px; color: #666; line-height: 1.6;">
+      Sélectionne une ou plusieurs directions en cliquant dessus, puis confirme avec <strong style="color: var(--hs-yellow);">[C]</strong> pour sauvegarder dans la spécification UX et avancer vers les User Journeys.
+    </p>
+  </div>
+</div>
+
+
+<script>
+  function showTab(name) {
+    document.querySelectorAll('.workspace').forEach(w => w.classList.remove('active'));
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById('tab-' + name).classList.add('active');
+    event.target.classList.add('active');
+  }
+
+  function toggleSummary(el) {
+    el.classList.toggle('selected');
+  }
+</script>
+</body>
+</html>
