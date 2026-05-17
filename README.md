@@ -2,12 +2,14 @@
 
 Ce repository contient l'ensemble des artefacts du projet **HoleSocks**, une démo e-commerce conçue avec le framework [BMAD](https://github.com/bmad-framework) pour TechReady.
 
-🔗 **Live demo :** [https://holesocks.vercel.app/](https://holesocks.vercel.app/)
+🔗 **Live demo :** [https://holesocks.vercel.app/](https://holesocks.vercel.app/)  
+📊 **Présentation :** [slides/Tech_Ready_2026_v2.pdf](slides/Tech_Ready_2026_v2.pdf)
 
 ## Structure du repository
 
 ```
 .
+├── slides/             # Présentation TechReady 2026 (PDF)
 ├── holesocks/          # Application Next.js 16 (code source)
 ├── _bmad-output/       # Artefacts de planification BMAD
 │   ├── planning-artifacts/
@@ -25,6 +27,10 @@ Ce repository contient l'ensemble des artefacts du projet **HoleSocks**, une dé
     ├── design.md
     └── pre-brief.md
 ```
+
+## slides/
+
+📊 [**Tech_Ready_2026_v2.pdf**](slides/Tech_Ready_2026_v2.pdf) — Présentation complète de la démo TechReady 2026 : contexte, méthodologie BMAD, démo live et retours.
 
 ## holesocks/
 
