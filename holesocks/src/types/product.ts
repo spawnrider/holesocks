@@ -13,7 +13,7 @@ export interface Product {
   level: 1 | 2 | 3; // Skill level required (1=beginner, 2=intermediate, 3=expert)
   color: string; // Color name (e.g., "red", "blue", "black")
   style: string; // Style category (e.g., "cotton", "wool", "bamboo")
-  sizes: string[]; // Available sizes (e.g., ["S", "M", "L", "XL"])
+  sizes: string[]; // Available sizes as EU ranges (e.g., ["34-38", "38-42", "42-46", "46-50"])
   gaugeValue: number; // Visual hole level indicator (0-100)
   imageUrl: string; // Path to product image (relative to public/)
 }

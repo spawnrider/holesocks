@@ -156,11 +156,11 @@ test.describe("Filtres catalogue — Taille", () => {
     await page.goto("/catalogue");
   });
 
-  test("filtre par taille S retourne les produits disponibles en S", async ({
+  test("filtre par taille 34-38 retourne les produits disponibles en 34-38", async ({
     page,
   }) => {
-    await page.getByRole("button", { name: "S", exact: true }).click();
-    // S disponible : Le Philosophe, Le Bricoleur, Le Minimal, Le Zen = 4
+    await page.getByRole("button", { name: "34-38", exact: true }).click();
+    // 34-38 disponible : Le Philosophe, Le Bricoleur, Le Minimal, Le Zen = 4
     const products = page
       .getByRole("region", { name: "Produits" })
       .getByRole("article");

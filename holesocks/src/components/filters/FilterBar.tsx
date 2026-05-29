@@ -26,7 +26,7 @@ const COLOR_OPTIONS = [
   { value: "white", label: "Blanc" },
 ];
 
-const SIZE_OPTIONS = ["S", "M", "L", "XL"];
+const SIZE_OPTIONS = ["34-38", "38-42", "42-46", "46-50"];
 
 function FilterSection({ title, children }: { title: string; children: React.ReactNode }) {
   return (

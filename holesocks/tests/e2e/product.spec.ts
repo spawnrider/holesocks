@@ -26,8 +26,8 @@ test.describe("Page Produit — Contenu", () => {
     ).toBeVisible();
   });
 
-  test("affiche les tailles disponibles S, M, L, XL", async ({ page }) => {
-    const sizes = ["S", "M", "L", "XL"];
+  test("affiche les tailles disponibles 34-38, 38-42, 42-46, 46-50", async ({ page }) => {
+    const sizes = ["34-38", "38-42", "42-46", "46-50"];
     for (const size of sizes) {
       await expect(page.getByRole("button", { name: size, exact: true })).toBeVisible();
     }
