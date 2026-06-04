@@ -1,0 +1,73 @@
+graph TD
+    subgraph Pages["🗂️ Pages — App Router"]
+        P1["/ — page.tsx\nAccueil"]
+        P2["/catalogue — page.tsx\nCatalogue + Filtres"]
+        P3["/produit/[id] — page.tsx\nFiche Produit"]
+    end
+
+    subgraph Layout["layout/"]
+        C_NAV["Navbar.tsx"]
+    end
+
+    subgraph Product["product/"]
+        C_CARD["ProductCard.tsx"]
+        C_GAUGE["HoleGauge.tsx"]
+        C_DETAIL["ProductDetailClient.tsx"]
+        C_IMG["OptimizedImage.tsx"]
+    end
+
+    subgraph Filters["filters/"]
+        C_FBAR["FilterBar.tsx"]
+        C_FCHIP["FilterChip.tsx"]
+    end
+
+    subgraph Reviews["reviews/"]
+        C_RSEC["ReviewSection.tsx"]
+        C_RLIST["ReviewList.tsx"]
+        C_RCARD["ReviewCard.tsx"]
+        C_RFORM["ReviewForm.tsx"]
+    end
+
+    subgraph Kit["kit/"]
+        C_KIT["BricoleurKit.tsx"]
+    end
+
+    subgraph DataLayer["💾 Données + Types"]
+        D_PROD["products.ts\n~9-15 produits"]
+        D_REV["reviews.ts\navis fictifs"]
+        T_PROD["types/product.ts\nProduct · Review · FilterState"]
+    end
+
+    subgraph Hooks["⚙️ Hooks"]
+        H_FILT["useFilters.ts"]
+    end
+
+    P1 --> C_NAV
+    P2 --> C_FBAR
+    P2 --> C_CARD
+    P2 --> H_FILT
+    P3 --> C_DETAIL
+    P3 --> C_GAUGE
+    P3 --> C_RSEC
+    P3 --> C_KIT
+    C_RSEC --> C_RLIST
+    C_RSEC --> C_RFORM
+    C_RLIST --> C_RCARD
+    C_FBAR --> C_FCHIP
+    C_CARD --> C_IMG
+    C_DETAIL --> C_IMG
+    H_FILT --> D_PROD
+    C_DETAIL --> D_PROD
+    C_RSEC --> D_REV
+    D_PROD -.->|"implémente"| T_PROD
+    D_REV -.->|"implémente"| T_PROD
+
+    subgraph Deploy["🚀 Déploiement"]
+        BUILD["next build → out/"]
+        LOCAL["npx serve out\nStand salon"]
+        VERCEL["Vercel\nGit push"]
+    end
+
+    Pages --> BUILD
+    BUILD --> LOCAL
+    BUILD --> VERCEL

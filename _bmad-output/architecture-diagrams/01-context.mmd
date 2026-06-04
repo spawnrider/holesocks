@@ -1,0 +1,13 @@
+graph TD
+    visitor["👤 Visiteur Salon\n(Parcourt le catalogue,\nconsulte les fiches produit,\nlit les avis humoristiques)"]
+
+    holesocks["🧦 HoleSocks\nSite statique Next.js\n(output: export)\nCatalogue de chaussettes trouées\navec filtres, fiches produit\net avis clients."]
+
+    hosting["☁️ Vercel / Serveur Local\nHéberge et sert les fichiers\nstatiques générés par next build"]
+
+    visitor -->|"Navigue — HTTPS / Browser"| holesocks
+    holesocks -->|"Déployé sur\nGit push / npx serve out"| hosting
+
+    style visitor fill:#08427B,color:#fff,stroke:#073B6F
+    style holesocks fill:#1168BD,color:#fff,stroke:#0E5CAD
+    style hosting fill:#999,color:#fff,stroke:#888

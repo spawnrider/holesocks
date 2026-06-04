@@ -1,0 +1,28 @@
+graph TD
+    visitor["👤 Visiteur Salon"]
+
+    subgraph app["🧦 HoleSocks App — Next.js 15 · TypeScript · Tailwind CSS"]
+        pages["📄 Pages / Routes\nApp Router\n/ → Accueil\n/catalogue → Catalogue\n/produit/[id] → Fiche produit"]
+        components["🧩 Composants UI\nReact TSX\nProductCard · HoleGauge\nFilterBar · ReviewSection\nBricoleurKit · Navbar"]
+        dataLayer["💾 Couche Données\nJSON + TypeScript\nproducts.ts · reviews.ts\nProduct · Review · FilterState"]
+        hooks["⚙️ Hooks\nuseFilters.ts\n(useState local)"]
+    end
+
+    build["📦 Build Output\nout/ — fichiers statiques\nHTML · CSS · JS"]
+    hosting["☁️ Hébergement\nVercel ou npx serve"]
+
+    visitor -->|"Requête HTTP"| pages
+    pages -->|"Rend JSX"| components
+    pages -->|"Import @ build time"| dataLayer
+    components -->|"Utilise"| hooks
+    hooks -->|"Lit les produits filtrés"| dataLayer
+    app -->|"next build"| build
+    build -->|"Servi par"| hosting
+
+    style visitor fill:#08427B,color:#fff,stroke:#073B6F
+    style pages fill:#1168BD,color:#fff,stroke:#0E5CAD
+    style components fill:#1168BD,color:#fff,stroke:#0E5CAD
+    style dataLayer fill:#1168BD,color:#fff,stroke:#0E5CAD
+    style hooks fill:#1168BD,color:#fff,stroke:#0E5CAD
+    style build fill:#666,color:#fff,stroke:#555
+    style hosting fill:#999,color:#fff,stroke:#888

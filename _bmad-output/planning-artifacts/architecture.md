@@ -8,7 +8,6 @@ inputDocuments:
   - _bmad-output/planning-artifacts/prd.md
   - _bmad-output/planning-artifacts/product-brief.md
   - docs/pre-brief.md
-workflowType: 'architecture'
 project_name: 'HoleSocks'
 user_name: 'Yohann'
 date: '2026-05-17'
@@ -177,6 +176,8 @@ src/components/
 
 **Interface Product (TypeScript) :**
 ```typescript
+type SizeRange = "34-38" | "38-42" | "42-46" | "46-50";
+
 interface Product {
   id: string            // "le-philosophe"
   name: string          // "Le Philosophe"
@@ -185,7 +186,7 @@ interface Product {
   level: 1 | 2 | 3     // Léger / Aéré / Catastrophe
   color: string
   style: 'orteil' | 'talon' | 'semelle'
-  sizes: number[]       // [38, 40, 41, 43, 44, 46]
+  sizes: SizeRange[]    // plages de pointures EU (ex: ["34-38", "38-42"])
   gaugeValue: number    // 0-100
   imageUrl: string
 }
