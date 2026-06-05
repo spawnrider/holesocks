@@ -1,0 +1,39 @@
+sequenceDiagram
+    autonumber
+    actor Client as Client (Visiteur)
+    participant Browser as Navigateur
+    participant Home as Page Accueil (/)
+    participant Catalogue as Page Catalogue (/catalogue)
+    participant Filters as useFilters
+    participant Products as products.ts
+    participant ProductPage as Page Fiche Produit (/produit/[id])
+    participant Detail as ProductDetailClient
+    participant Reviews as ReviewSection
+    participant ReviewsData as reviews.ts
+
+    Client->>Browser: Ouvre le site HoleSocks
+    Browser->>Home: GET /
+    Home-->>Browser: HTML/CSS/JS statiques
+    Browser-->>Client: Affiche accueil + CTA catalogue
+
+    Client->>Browser: Clique "Voir le catalogue"
+    Browser->>Catalogue: GET /catalogue
+    Catalogue->>Products: Charge la liste des produits (import statique)
+    Products-->>Catalogue: Retourne Product[]
+    Catalogue-->>Browser: Rend cartes produits + barre de filtres
+
+    Client->>Filters: Sélectionne des filtres (taille, niveau, dispo)
+    Filters->>Products: Filtre en mémoire locale
+    Products-->>Filters: Résultats filtrés
+    Filters-->>Browser: Met à jour la grille de produits
+
+    Client->>Browser: Clique un produit
+    Browser->>ProductPage: GET /produit/[id]
+    ProductPage->>Products: Récupère les données du produit ciblé
+    Products-->>ProductPage: Détails produit
+    ProductPage->>Detail: Hydrate la vue client (jauge, images, CTA)
+    ProductPage->>ReviewsData: Charge les avis associés
+    ReviewsData-->>ProductPage: Liste des avis
+    ProductPage->>Reviews: Rend la section avis
+    ProductPage-->>Browser: Affiche la fiche produit côté client
+    Browser-->>Client: Consultation complète de la fiche
