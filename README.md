@@ -4,6 +4,7 @@ Ce repository contient l'ensemble des artefacts du projet **HoleSocks**, une dé
 
 🔗 **Live demo :** [https://holesocks.vercel.app/](https://holesocks.vercel.app/)  
 📊 **Présentation :** [slides/Tech_Ready_2026_v2.pdf](slides/Tech_Ready_2026_v2.pdf)
+** Replay du talk:** [https://www.youtube.com/watch?v=Q5C2DLXg-2Q](https://www.youtube.com/watch?v=Q5C2DLXg-2Q)
 
 ## Structure du repository
 
