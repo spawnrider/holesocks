@@ -33,7 +33,7 @@ export default function Home() {
             Explorer la collection
           </Link>
           <Link
-            href="/catalogue"
+            href="/manifeste"
             className="px-8 py-4 border border-creme/30 text-creme font-ui font-semibold text-sm uppercase tracking-wider rounded hover:border-creme transition-colors duration-150 min-h-[52px] flex items-center"
           >
             Notre manifeste
