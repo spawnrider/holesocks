@@ -9,6 +9,11 @@ test.describe("Page manifeste", () => {
     await expect(page).toHaveURL("/manifeste");
   });
 
+  test("expose un titre de page dédié", async ({ page }) => {
+    await page.goto("/manifeste");
+    await expect(page).toHaveTitle("Notre manifeste — HoleSocks");
+  });
+
   test("affiche le titre principal du manifeste", async ({ page }) => {
     await page.goto("/manifeste");
     await expect(
