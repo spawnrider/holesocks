@@ -7,7 +7,6 @@
 
 # BMAD framework (tooling, not project artifacts)
 .agents/
-_bmad/
 # Node
 holesocks/node_modules/
 holesocks/.next/
