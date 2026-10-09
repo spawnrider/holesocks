@@ -5,6 +5,7 @@ Une ligne par page publiée dans Outline. Tenu par le Technical Writer (voir le 
 | Section | Titre | Chemin source | ID Outline | URL | Commit publié | Date |
 |---|---|---|---|---|---|---|
 | Études | Étude : marché et concurrents de la chaussette fantaisie | `_bmad-output/planning-artifacts/research/research-marche-concurrents-chaussettes-fantaisie/research-marche-concurrents-chaussettes-fantaisie.md` | `0fa29b0f-8a44-4fae-8243-917affb9c6ac` | https://outline.apps.ciurlik.fr/doc/etude-marche-et-concurrents-de-la-chaussette-fantaisie-O7dSuP2pEu | `8708500` | 2026-10-09 |
+| Études | Étude : Chiffrage panier, paiement en ligne et back-office commandes | `_bmad-output/planning-artifacts/research/chiffrage-panier-paiement-backoffice.md` | `c654d9ce-51e9-4759-bed2-651ed038f986` | https://outline.apps.ciurlik.fr/doc/etude-chiffrage-panier-paiement-en-ligne-et-back-office-commandes-kSpPOIsqLD | `e2c5950` | 2026-10-09 |
 
 ## Documents racines
 
