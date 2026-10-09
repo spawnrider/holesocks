@@ -485,7 +485,7 @@ Composants utilitaires couverts par Tailwind : layout (grid, flex), spacing, typ
 | **Primary** | Fond Charbon · texte Crème · Syne Bold 12px | Action principale : "Explorer", "Voir la collection" |
 | **CTA accent** | Fond Acidulé · texte Charbon | Action d'achat : "Adopter ce trou", "Compléter la collection" |
 | **Secondary** | Border Charbon 1.5px · fond transparent · texte Charbon | Action secondaire : "Notre philosophie", "En savoir plus" |
-| **Ghost** | Border Crème 1.5px · fond transparent · texte Crème | Contexte sombre : "Notre manifeste" |
+| **Ghost** | Border Crème 1.5px · fond transparent · texte Crème | Contexte sombre : "Notre manifeste" (hero de l'accueil → page `/manifeste`) |
 | **Inline text** | Underline · texte couleur courante | Liens dans les descriptions |
 
 Règle : jamais deux boutons Primary au même niveau hiérarchique. Un Primary + un Secondary max par bloc d'action.

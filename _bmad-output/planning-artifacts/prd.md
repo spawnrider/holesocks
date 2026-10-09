@@ -20,6 +20,9 @@ classification:
   type: "Site web (démo salon)"
   domaine: "Divertissement"
   contexte: "Greenfield"
+editHistory:
+  - date: 2026-10-09
+    changes: "Ajout de l'exigence fonctionnelle de la page /manifeste, livrée hors spec (BMA-5, PR #1) et intégrée a posteriori (BMA-21)"
 ---
 
 # PRD: HoleSocks
@@ -74,6 +77,7 @@ Tout ce qui est décrit dans le PRD est à livrer en une seule version pour la d
 - Section « Kit du Bricoleur » proposée en cross-sell sur chaque fiche produit
 - Section avis clients humoristiques, possibilité d’en ajouter fictivement
 - Ton décalé et humour omniprésent dans tous les textes et interactions
+- Page « Notre manifeste » (`/manifeste`) expliquant pourquoi HoleSocks existe et détaillant le concept : qualité volontaire, trois niveaux de trous, humour inclus, avec les trois piliers numérotés 01/02/03 repris de l’accueil ; elle se termine par un CTA vers le catalogue (`/catalogue`) et on y accède depuis le bouton « Notre manifeste » de la page d’accueil
 
 # Exigences Non Fonctionnelles
 

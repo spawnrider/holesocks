@@ -33,6 +33,8 @@ Ce document fournit la décomposition complète en épics et stories pour HoleSo
 
 **FR6:** Ton décalé et humour omniprésent dans tous les textes et interactions
 
+**FR7:** Page « Notre manifeste » (`/manifeste`) : pourquoi HoleSocks, concept détaillé (qualité volontaire, trois niveaux, humour), trois piliers 01/02/03 repris de l'accueil, CTA vers `/catalogue`, accessible depuis le bouton « Notre manifeste » de l'accueil
+
 ### Exigences Non Fonctionnelles
 
 **NFR1:** Le site doit être fluide et réactif pendant toute la durée de la démo, même avec plusieurs visiteurs simultanés
@@ -123,6 +125,7 @@ Ce document fournit la décomposition complète en épics et stories pour HoleSo
 | FR4 (kit) | Epic 3 | 3.4 |
 | FR5 (avis) | Epic 4 | 4.1-4.2 |
 | FR6 (ton) | Epics 2-4 | All |
+| FR7 (manifeste) | Epic 1 | 1.7 |
 | NFR1-4 | Epic 1 | 1.1 |
 | ARCH1-7 | All | All |
 | UX-DR1-4 (tokens, typo, layout) | Epic 1 | 1.4 |
@@ -137,7 +140,7 @@ Ce document fournit la décomposition complète en épics et stories pour HoleSo
 
 ## Epic List
 
-1. **Epic 1: Project Initialization & Foundation** — Init Next.js, structure, config, types, tokens, Navbar, Hero
+1. **Epic 1: Project Initialization & Foundation** — Init Next.js, structure, config, types, tokens, Navbar, Hero, page Manifeste
 2. **Epic 2: Filtering & Catalogue Navigation** — Filtres, page catalogue, logique filtrage + ton
 3. **Epic 3: Product Detail & Cross-Sell** — Fiches produit, jauge, Kit du Bricoleur + ton
 4. **Epic 4: Reviews & Testimonials** — Avis clients, ajout fictif + ton
@@ -258,6 +261,36 @@ So that I understand and smile within 5 seconds of arrival.
 **And** les animations fade-up sont conditionnées au hook `useReducedMotion()` — désactivées si `prefers-reduced-motion: reduce`
 
 **And** chaque `<section>` dispose d'un `aria-label` descriptif et le contenu principal est dans `<main id="main-content">`
+
+### Story 1.7: Create Manifesto Page (`/manifeste`)
+
+> **Statut : livrée** — BMA-2 → BMA-5, PR #1 (commit `9a0f851`), QA BMA-6. Story ajoutée a posteriori (BMA-21) : la page a été livrée en taille `session`, sans spec.
+
+As a visitor,
+I want a dedicated manifesto page explaining why HoleSocks exists,
+So that I understand the concept in depth before exploring the collection.
+
+**Acceptance Criteria:**
+
+**Given** je suis sur la page d'accueil
+**When** je clique sur le bouton Ghost « Notre manifeste » du hero
+**Then** je suis redirigé vers `/manifeste`
+
+**And** la page `src/app/manifeste/page.tsx` expose le titre de document « Notre manifeste — HoleSocks » et une meta description
+
+**And** l'accroche (fond Charbon, `pt-[calc(72px+6rem)]` pour la navbar sticky) affiche le sur-titre « Notre manifeste » en Acidulé et le `<h1>` « POURQUOI DES TROUS ? » en Bebas Neue
+
+**And** la section « Le pourquoi de HoleSocks » (fond Crème) explique en ton décalé que toutes les chaussettes finissent trouées et que HoleSocks vend l'usure assumée dès le premier jour
+
+**And** la section « Le concept HoleSocks en détail » (fond Charbon) reprend les trois piliers de l'accueil, numérotés 01/02/03 en Acidulé : QUALITÉ VOLONTAIRE, TROIS NIVEAUX, HUMOUR INCLUS
+
+**And** la même section présente les trois niveaux Léger/Aéré/Catastrophe avec leurs couleurs sémantiques Sauge/Ambre/Terra et une description humoristique
+
+**And** un CTA final « Explorer la collection → » (Primary, fond Charbon, cible ≥52px) navigue vers `/catalogue`
+
+**And** chaque `<section>` dispose d'un `aria-label` descriptif ; aucune animation de scroll n'est utilisée
+
+**And** `tests/e2e/manifeste.spec.ts` couvre : navigation depuis l'accueil, titre de document, `<h1>`, contenu du pourquoi, les 3 piliers dans la section concept, CTA vers `/catalogue`
 
 ---
 
@@ -476,13 +509,14 @@ So that updates deploy seamlessly.
 
 ## Coverage Summary
 
-✅ All 5 epics cover 6 FRs + 4 NFRs + 7 architectural requirements + 26 UX Design Requirements
-✅ 15 stories total avec critères d'acceptation spécifiques
+✅ All 5 epics cover 7 FRs + 4 NFRs + 7 architectural requirements + 26 UX Design Requirements
+✅ 18 stories total avec critères d'acceptation spécifiques (le décompte initial « 15 » était erroné : 17 stories avant l'ajout de la 1.7)
 ✅ Toutes les stories sont dimensionnées pour un agent développeur seul
 ✅ Brand Voice & Ton décalé embarqués dans Epics 2-4 comme préoccupation transversale
 ✅ Design tokens, typographie et styles globaux couverts par Story 1.4
 ✅ Navbar sticky + skip-to-content couverts par Story 1.5
 ✅ Homepage hero + sections couvertes par Story 1.6
+✅ Page manifeste `/manifeste` (FR7) couverte par Story 1.7, livrée (BMA-5, PR #1)
 ✅ Accessibilité WCAG AA (contrastes, landmarks, ARIA, 44px targets) couverte dans toutes les stories
 ✅ Animations Framer Motion + prefers-reduced-motion couverts par Stories 1.6 et 3.2
 ✅ Responsive 3-breakpoints couvert dans toutes les stories de composants
