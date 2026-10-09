@@ -1,13 +1,19 @@
 graph TD
-    visitor["👤 Visiteur Salon\n(Parcourt le catalogue,\nconsulte les fiches produit,\nlit les avis humoristiques)"]
+    visitor["👤 Visiteur\n(Parcourt le catalogue,\nconsulte les fiches produit,\nlit et ajoute des avis fictifs)"]
 
-    holesocks["🧦 HoleSocks\nSite statique Next.js\n(output: export)\nCatalogue de chaussettes trouées\navec filtres, fiches produit\net avis clients."]
+    holesocks["🧦 HoleSocks\nSite statique Next.js 16\n(output: export)\nAccueil, catalogue filtrable,\nfiches produit, manifeste"]
 
-    hosting["☁️ Vercel / Serveur Local\nHéberge et sert les fichiers\nstatiques générés par next build"]
+    local["💻 Serveur local\nnpx serve out (npm start)\nDémo sur stand"]
+    hosting["☁️ Hébergeur statique public\nVercel envisagé\nNON CONFIGURÉ"]
+    fonts["🔤 Google Fonts\nTéléchargées au build\n(next/font/google)"]
 
-    visitor -->|"Navigue — HTTPS / Browser"| holesocks
-    holesocks -->|"Déployé sur\nGit push / npx serve out"| hosting
+    visitor -->|"Navigue — HTTP(S) / navigateur"| holesocks
+    holesocks -->|"Servi par"| local
+    holesocks -.->|"Prévu, non configuré"| hosting
+    fonts -.->|"Au build uniquement"| holesocks
 
     style visitor fill:#08427B,color:#fff,stroke:#073B6F
     style holesocks fill:#1168BD,color:#fff,stroke:#0E5CAD
-    style hosting fill:#999,color:#fff,stroke:#888
+    style local fill:#999,color:#fff,stroke:#888
+    style hosting fill:#ccc,color:#333,stroke:#888,stroke-dasharray: 5 5
+    style fonts fill:#999,color:#fff,stroke:#888

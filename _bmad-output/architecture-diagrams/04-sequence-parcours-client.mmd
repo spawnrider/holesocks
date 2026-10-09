@@ -2,38 +2,39 @@ sequenceDiagram
     autonumber
     actor Client as Client (Visiteur)
     participant Browser as Navigateur
-    participant Home as Page Accueil (/)
-    participant Catalogue as Page Catalogue (/catalogue)
+    participant Static as Fichiers statiques (out/)
+    participant Catalogue as CatalogueClient
     participant Filters as useFilters
-    participant Products as products.ts
-    participant ProductPage as Page Fiche Produit (/produit/[id])
-    participant Detail as ProductDetailClient
     participant Reviews as ReviewSection
-    participant ReviewsData as reviews.ts
+
+    Note over Static: Pages pré-rendues au build depuis products.ts et reviews.ts<br/>(aucun appel réseau de données à l'exécution)
 
     Client->>Browser: Ouvre le site HoleSocks
-    Browser->>Home: GET /
-    Home-->>Browser: HTML/CSS/JS statiques
-    Browser-->>Client: Affiche accueil + CTA catalogue
+    Browser->>Static: GET /
+    Static-->>Browser: HTML accueil (hero, 3 niveaux, manifeste)
 
-    Client->>Browser: Clique "Voir le catalogue"
-    Browser->>Catalogue: GET /catalogue
-    Catalogue->>Products: Charge la liste des produits (import statique)
-    Products-->>Catalogue: Retourne Product[]
-    Catalogue-->>Browser: Rend cartes produits + barre de filtres
+    opt Lit le manifeste
+        Client->>Browser: Clique « Notre manifeste »
+        Browser->>Static: GET /manifeste
+        Static-->>Browser: HTML manifeste
+    end
 
-    Client->>Filters: Sélectionne des filtres (taille, niveau, dispo)
-    Filters->>Products: Filtre en mémoire locale
-    Products-->>Filters: Résultats filtrés
-    Filters-->>Browser: Met à jour la grille de produits
+    Client->>Browser: Clique « Explorer la collection »
+    Browser->>Static: GET /catalogue
+    Static-->>Browser: HTML + JS (8 produits passés en props)
+    Browser->>Catalogue: Hydrate l'îlot client
+
+    Client->>Catalogue: Sélectionne des filtres (niveau, style, couleur, pointure)
+    Catalogue->>Filters: setFilter(clé, valeur)
+    Filters-->>Catalogue: applyFilters(produits) en mémoire
+    Catalogue-->>Browser: Met à jour la grille (ou « aucune survivante »)
 
     Client->>Browser: Clique un produit
-    Browser->>ProductPage: GET /produit/[id]
-    ProductPage->>Products: Récupère les données du produit ciblé
-    Products-->>ProductPage: Détails produit
-    ProductPage->>Detail: Hydrate la vue client (jauge, images, CTA)
-    ProductPage->>ReviewsData: Charge les avis associés
-    ReviewsData-->>ProductPage: Liste des avis
-    ProductPage->>Reviews: Rend la section avis
-    ProductPage-->>Browser: Affiche la fiche produit côté client
-    Browser-->>Client: Consultation complète de la fiche
+    Browser->>Static: GET /produit/[id]
+    Static-->>Browser: HTML fiche (jauge, pointures EU, avis, Kit du Bricoleur)
+    Browser->>Reviews: Hydrate l'îlot avis
+
+    Client->>Reviews: Soumet un avis (ReviewForm)
+    Reviews-->>Browser: Ajoute l'avis en tête de liste (état local, non persisté)
+
+    Note over Client,Browser: CTA « Adopter ce trou » sans action : panier et paiement NON IMPLÉMENTÉS

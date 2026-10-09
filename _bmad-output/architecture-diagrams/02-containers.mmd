@@ -1,23 +1,24 @@
 graph TD
-    visitor["👤 Visiteur Salon"]
+    visitor["👤 Visiteur"]
 
-    subgraph app["🧦 HoleSocks App — Next.js 15 · TypeScript · Tailwind CSS"]
-        pages["📄 Pages / Routes\nApp Router\n/ → Accueil\n/catalogue → Catalogue\n/produit/[id] → Fiche produit"]
-        components["🧩 Composants UI\nReact TSX\nProductCard · HoleGauge\nFilterBar · ReviewSection\nBricoleurKit · Navbar"]
-        dataLayer["💾 Couche Données\nJSON + TypeScript\nproducts.ts · reviews.ts\nProduct · Review · FilterState"]
+    subgraph app["🧦 HoleSocks App — Next.js 16.2 · React 19.2 · TypeScript · Tailwind CSS 4 · Framer Motion"]
+        pages["📄 Pages — Server Components\nApp Router (rendues au build)\n/ → Accueil\n/catalogue → Catalogue\n/produit/[id] → Fiche produit\n/manifeste → Manifeste"]
+        components["🧩 Composants — îlots Client\nCatalogueClient · FilterBar\nProductCard · HoleGauge\nReviewSection · ReviewForm\nBricoleurKit · Navbar · OptimizedImage"]
         hooks["⚙️ Hooks\nuseFilters.ts\n(useState local)"]
+        dataLayer["💾 Données\nmodules TypeScript\nproducts.ts (8) · reviews.ts (10)\ntypes/product.ts"]
     end
 
-    build["📦 Build Output\nout/ — fichiers statiques\nHTML · CSS · JS"]
-    hosting["☁️ Hébergement\nVercel ou npx serve"]
+    build["📦 out/\nHTML · CSS · JS statiques"]
+    hosting["☁️ npx serve out (local)\nHébergeur public non configuré"]
+    e2e["🧪 Playwright e2e\ncontre out/ :3000"]
 
-    visitor -->|"Requête HTTP"| pages
-    pages -->|"Rend JSX"| components
-    pages -->|"Import @ build time"| dataLayer
+    visitor -->|"Requête HTTP"| hosting
+    pages -->|"Import au build"| dataLayer
+    pages -->|"Props (données)"| components
     components -->|"Utilise"| hooks
-    hooks -->|"Lit les produits filtrés"| dataLayer
     app -->|"next build"| build
     build -->|"Servi par"| hosting
+    build -->|"Testé par"| e2e
 
     style visitor fill:#08427B,color:#fff,stroke:#073B6F
     style pages fill:#1168BD,color:#fff,stroke:#0E5CAD
@@ -26,3 +27,4 @@ graph TD
     style hooks fill:#1168BD,color:#fff,stroke:#0E5CAD
     style build fill:#666,color:#fff,stroke:#555
     style hosting fill:#999,color:#fff,stroke:#888
+    style e2e fill:#999,color:#fff,stroke:#888

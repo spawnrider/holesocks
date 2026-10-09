@@ -1,19 +1,25 @@
 graph TD
-    subgraph Pages["🗂️ Pages — App Router"]
+    subgraph Pages["🗂️ Pages — App Router (Server Components)"]
+        L["layout.tsx\nLayout racine"]
         P1["/ — page.tsx\nAccueil"]
-        P2["/catalogue — page.tsx\nCatalogue + Filtres"]
-        P3["/produit/[id] — page.tsx\nFiche Produit"]
+        P2["/catalogue — page.tsx"]
+        P3["/produit/[id] — page.tsx\ngenerateStaticParams"]
+        P4["/manifeste — page.tsx"]
     end
 
-    subgraph Layout["layout/"]
-        C_NAV["Navbar.tsx"]
+    subgraph UI["ui/"]
+        C_NAV["Navbar.tsx (client)"]
+        C_IMG["OptimizedImage.tsx (client)"]
+    end
+
+    subgraph Catalogue["catalogue/"]
+        C_CAT["CatalogueClient.tsx (client)"]
     end
 
     subgraph Product["product/"]
         C_CARD["ProductCard.tsx"]
-        C_GAUGE["HoleGauge.tsx"]
-        C_DETAIL["ProductDetailClient.tsx"]
-        C_IMG["OptimizedImage.tsx"]
+        C_GAUGE["HoleGauge.tsx (client, Framer Motion)"]
+        C_DETAIL["ProductDetailClient.tsx\nNON UTILISÉ"]
     end
 
     subgraph Filters["filters/"]
@@ -22,52 +28,59 @@ graph TD
     end
 
     subgraph Reviews["reviews/"]
-        C_RSEC["ReviewSection.tsx"]
+        C_RSEC["ReviewSection.tsx (client)\nétat local des avis"]
         C_RLIST["ReviewList.tsx"]
         C_RCARD["ReviewCard.tsx"]
-        C_RFORM["ReviewForm.tsx"]
+        C_RFORM["ReviewForm.tsx (client)"]
     end
 
     subgraph Kit["kit/"]
         C_KIT["BricoleurKit.tsx"]
     end
 
-    subgraph DataLayer["💾 Données + Types"]
-        D_PROD["products.ts\n~9-15 produits"]
-        D_REV["reviews.ts\navis fictifs"]
-        T_PROD["types/product.ts\nProduct · Review · FilterState"]
-    end
-
-    subgraph Hooks["⚙️ Hooks"]
+    subgraph Hooks["⚙️ lib/"]
         H_FILT["useFilters.ts"]
     end
 
-    P1 --> C_NAV
-    P2 --> C_FBAR
-    P2 --> C_CARD
-    P2 --> H_FILT
-    P3 --> C_DETAIL
+    subgraph DataLayer["💾 data/ + types/"]
+        D_PROD["products.ts\nPRODUCTS (8)"]
+        D_REV["reviews.ts\nREVIEWS (10)"]
+        T_PROD["types/product.ts\nProduct · Review · FilterState"]
+    end
+
+    L --> C_NAV
+    P1 --> D_PROD
+    P2 --> D_PROD
+    P2 -->|"props"| C_CAT
+    P3 --> D_PROD
+    P3 --> D_REV
     P3 --> C_GAUGE
-    P3 --> C_RSEC
-    P3 --> C_KIT
+    P3 -->|"props"| C_RSEC
+    P3 -->|"props"| C_KIT
+    C_CAT --> H_FILT
+    C_CAT --> C_FBAR
+    C_CAT --> C_CARD
+    C_FBAR --> C_FCHIP
+    C_CARD --> C_IMG
+    C_KIT --> C_IMG
     C_RSEC --> C_RLIST
     C_RSEC --> C_RFORM
     C_RLIST --> C_RCARD
-    C_FBAR --> C_FCHIP
-    C_CARD --> C_IMG
-    C_DETAIL --> C_IMG
-    H_FILT --> D_PROD
-    C_DETAIL --> D_PROD
-    C_RSEC --> D_REV
-    D_PROD -.->|"implémente"| T_PROD
-    D_REV -.->|"implémente"| T_PROD
+    C_DETAIL -.-> C_IMG
+    D_PROD -.->|"typé par"| T_PROD
+    D_REV -.->|"typé par"| T_PROD
 
-    subgraph Deploy["🚀 Déploiement"]
+    subgraph Deploy["🚀 Build & tests"]
         BUILD["next build → out/"]
-        LOCAL["npx serve out\nStand salon"]
-        VERCEL["Vercel\nGit push"]
+        LOCAL["npx serve out\n(npm start, démo locale)"]
+        E2E["Playwright e2e\nhome · catalogue · product · manifeste"]
+        HOST["Hébergeur public\nNON CONFIGURÉ"]
     end
 
     Pages --> BUILD
     BUILD --> LOCAL
-    BUILD --> VERCEL
+    BUILD --> E2E
+    BUILD -.-> HOST
+
+    style C_DETAIL stroke-dasharray: 5 5
+    style HOST stroke-dasharray: 5 5
